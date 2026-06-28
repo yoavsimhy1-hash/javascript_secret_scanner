@@ -94,7 +94,7 @@ def crawl(page_url, depth, max_depth):
             crawl(full_url, depth + 1, max_depth)
 
 # gets the findings of the scanner and inserts them into a json file
-def save_json_report (findings, filename=r"report.json"):
+def save_json_report (findings, filename=r"report.json"): #insert desired json file path into filename=
     report = {
         "target": base_url,
         "total_findings": len(findings),
