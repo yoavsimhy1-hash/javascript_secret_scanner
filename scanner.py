@@ -11,6 +11,7 @@ visited_pages = set()
 js_set = set()
 inline_scripts = []
 
+# secret rules
 RULES = [
     {
         "name": "Possible API Key",
@@ -59,7 +60,7 @@ RULES = [
     },
 ]
 
-
+# gets a url, depth - int and max depth - int, and returns all the javascripts on the given url.
 def crawl(page_url, depth, max_depth):
     if depth > max_depth:
         return
@@ -92,7 +93,7 @@ def crawl(page_url, depth, max_depth):
         if functions.is_internal_url(base_url, full_url):
             crawl(full_url, depth + 1, max_depth)
 
-
+# gets the findings of the scanner and inserts them into a json file
 def save_json_report (findings, filename=r"report.json"):
     report = {
         "target": base_url,
@@ -105,7 +106,7 @@ def save_json_report (findings, filename=r"report.json"):
 
     print(f"[REPORT] Saved JSON report to {filename}")
 
-
+# gets javascript code and the url, checks for secrets in the js code based on the rules
 def scan_js_code(js_code, url):
     for rule in RULES:
         matches = re.finditer(rule["pattern"], js_code)
@@ -162,7 +163,7 @@ crawl(base_url, 0, 5)
 #going through every js full url, sends a get request and saves the js into response.
 seen_keys = set()
 findings = []
-for url in js_set: #checks secrets in external javascripts
+for url in js_set: #looks for secrets in external javascripts
     try:
         response = requests.get(url, timeout=10)
         response.raise_for_status()
@@ -175,7 +176,7 @@ for url in js_set: #checks secrets in external javascripts
         continue
 
 
-for inline_script in inline_scripts: #checks secrets in internal scripts
+for inline_script in inline_scripts: #looks for secrets in internal scripts
     url = inline_script["url"]
     js_code = inline_script["code"]
 
