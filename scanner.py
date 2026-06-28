@@ -6,7 +6,7 @@ import functions
 from functions import is_allow_listed, is_minified
 import json
 
-base_url = 'http://localhost:8000/'
+base_url = #insert the desired url here
 visited_pages = set()
 js_set = set()
 inline_scripts = []
@@ -93,7 +93,7 @@ def crawl(page_url, depth, max_depth):
             crawl(full_url, depth + 1, max_depth)
 
 
-def save_json_report (findings, filename=r"C:\Users\simhy\PyCharmMiscProject\reports\report.json"):
+def save_json_report (findings, filename=r"report.json"):
     report = {
         "target": base_url,
         "total_findings": len(findings),
